@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Blog :: Account</title>
+    </head>
+    <body>
+        <div class="container">
+            <a th:href="@{'/'}">Home</a>
+            <div class="account">
+                <h2 th:text="${account.email}">Email</h2>
+                <h5 th:text="'First Name: ' + ${account.firstName}">First Name</h5>
+                <h5 th:text="'Last Name: ' + ${account.lastName}">Last Name</h5>
+            </div>
+            <div>
+                <form action="#" th:action="@{'/accounts/' + ${account.id} + '/follow'}" method="POST">
+                    <button type="submit">FOLLOW</button>
+                </form>
+                <form action="#" th:action="@{'/accounts/' + ${account.id} + '/unfollow'}" method="POST">
+                    <button type="submit">UNFOLLOW</button>
+                </form>
+            </div>
+            <hr/>
+            <h2>FOLLOWERS</h2>
+            <div th:each="follower : ${account.followers}">
+                <h4 th:text="${follower.email}"></h4>
+            </div>
+            <hr/>
+            <h2>FOLLOWING</h2>
+            <div th:each="following : ${account.followings}">
+                <h4 th:text="${following.email}"></h4>
+            </div>
+        </div>
+    </body>
+</html>

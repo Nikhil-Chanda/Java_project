@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Blog :: Post</title>
+    </head>
+    <body>
+        <div class="container">
+            <a th:href="@{'/'}">Home</a>
+            <div class="post">
+                <h2 th:text="${post.title}">Title</h2>
+                <h5 th:text="'Author: ' + ${post.account.firstName}"></h5>
+                <h5 th:text="'Created on: ' + ${post.createdAt}">Created At</h5>
+                <h5 th:text="'Last Updated on: ' + ${post.updatedAt}">Updated At</h5>
+                <p th:text="${post.body}">body text</p>
+            </div>
+            <hr/>
+            <ul th:if="${session.isLoggedIn}">
+                <li th:if="${session.account.email == post.account.email}"><a th:href="@{'/posts/' + ${post.id} + '/edit'}">Edit</a></li>
+                <li th:if="${session.account.email == post.account.email || session.account.authority == 'ADMIN'}"><a th:href="@{'/posts/' + ${post.id} + '/delete'}">Delete</a></li>
+            </ul>
+            <hr/>
+            <div>
+                <form action="#" th:action="@{'/posts/' + ${post.id} + '/comment'}" th:object="${comment}" method="POST">
+                    <div>
+                        <textarea id="comment-body" th:field="*{commentValue}" placeholder="Comment"></textarea>
+                    </div>
+                    <button type="submit">Post</button>
+                </form>
+            </div>
+            <hr/>
+            <h3>Comments</h3>
+            <div class="comments-container" th:each="comment : ${comments}">
+                <h4 th:text="${comment.commentValue}">Body</h4>
+                <p th:text="'Author: ' + ${comment.account.firstName}"></p>
+                <a th:if="session.account.email == comment.account.email || session.account.authority == 'ADMIN'" th:href="@{'/posts/' + ${post.id} + '/comment/' + ${comment.id} + '/delete'}">Delete</a>
+            </div>
+        </div>
+    </body>
+</html>

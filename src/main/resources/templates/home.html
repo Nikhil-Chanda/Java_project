@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Blog :: Home</title>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Spring Boot Blog Application</h1>
+            <hr/>
+            <ul th:if="${!session.isLoggedIn}">
+                <li><a th:href="@{/register}">Register</a></li>
+                <li><a th:href="@{/login}">Login</a></li>
+            </ul>
+            <form action="#" th:if="${session.isLoggedIn}" th:action="@{/logout}" method="POST">
+                <div>
+                    <p th:text="'Hi, ' + ${session.account.email}"></p>
+                </div>
+                <button type="submit">Logout</button>
+            </form>
+            <hr/>
+            <form action="#" th:action="@{'/search'}" method="POST">
+                <input id="search-title" type="text" name="query" placeholder="Search by Title"/>
+                <button type="submit">SEARCH</button>
+            </form>
+            <form action="#" th:action="@{'/account'}" method="POST">
+                <input id="search-account" type="text" name="account" placeholder="Search for User"/>
+                <button type="submit">SEARCH</button>
+            </form>
+            <hr/>
+            <ul>
+                <li><a th:href="@{/posts/new}">New Post</a></li>
+                <li><a th:href="@{/myfeed}">My Feed</a></li>
+            </ul>
+            <div class="posts-container">
+                <div class="post" th:each="post : ${posts}">
+                    <h2><a th:href="@{'/posts/' + ${post.id}}"
+                        th:text="${post.title}">Title</a>
+                    </h2>
+                    <h5 th:text="'Author: ' + ${post.account.firstName}"></h5>
+                    <h5 th:text="'Created on ' + ${post.createdAt}">Created At</h5>
+                    <h5 th:text="'Last Updated on ' + ${post.updatedAt}">Updated At</h5>
+                    <p th:text="${post.body}">body text</p>
+                    <br/>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

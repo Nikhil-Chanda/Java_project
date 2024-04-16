@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Blog :: Account</title>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Spring Boot Blog Application</h1>
+            <hr/>
+            <div class="accounts-container">
+                <div class="account" th:each="account : ${searchedAccounts}">
+                    <h2><a th:href="@{'/accounts/' + ${account.id}}"
+                        th:text="${account.email}">Email</a>
+                    </h2>
+                    <h5 th:text="'First Name: ' + ${account.firstName}">First Name</h5>
+                    <h5 th:text="'Last Name: ' + ${account.lastName}">Last Name</h5>
+                    <br/>
+                </div>
+            </div>
+            <hr/>
+        </div>
+    </body>
+</html>
